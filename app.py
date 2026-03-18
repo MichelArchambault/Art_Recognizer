@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for
 import os
 from werkzeug.utils import secure_filename
 import tensorflow as tf
-from tensorflow import keras
+import keras
 import numpy as np
 import matplotlib.pyplot as plt
 import io
@@ -80,4 +80,4 @@ def upload_file():
     return redirect(request.url)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)

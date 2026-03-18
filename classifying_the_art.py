@@ -1,8 +1,9 @@
 import tensorflow as tf
-from tensorflow import keras
+import keras
 from keras import layers
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 
 DATA_DIR = "art_downloads"
@@ -74,15 +75,19 @@ model.compile(
 
 model.summary()
 
+model_path = "art_classifier_model.h5"
 
-print("Training...")
-model.fit(
-    train_ds,
-    validation_data=val_ds,
-    epochs=10
-)
-
-model.save("art_classifier_model.h5")
+if os.path.exists(model_path):
+    print("Loading existing model...")
+    model = keras.models.load_model(model_path)
+else:
+    print("Training...")
+    model.fit(
+        train_ds,
+        validation_data=val_ds,
+        epochs=10
+    )
+    model.save(model_path)
 
 
 def classify_image(model, image_path):
