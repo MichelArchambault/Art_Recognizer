@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-DATA_DIR = "data"
+DATA_DIR = "art_downloads"
 IMG_SIZE = (128, 128)
 BATCH_SIZE = 32
 
@@ -81,6 +81,8 @@ model.fit(
     validation_data=val_ds,
     epochs=10
 )
+
+model.save("art_classifier_model.h5")
 
 
 def classify_image(model, image_path):
