@@ -154,5 +154,4 @@ def classify_image(model, image_path):
     return predicted_class, confidence
 
 
-# Uncomment to test with a sample image
 # classify_image(model, "test_painting.jpg")

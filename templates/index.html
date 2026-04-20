@@ -6,55 +6,174 @@
     <title>Art Style Recognizer</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+            font-family: 'Inter', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: #f0f5ff;
+            background: radial-gradient(circle at top left, rgba(94, 182, 255, 0.35), transparent 20%),
+                        radial-gradient(circle at bottom right, rgba(248, 158, 195, 0.22), transparent 18%),
+                        linear-gradient(135deg, #0b1f3f 0%, #17356f 40%, #1f4f8a 100%);
+            background-attachment: fixed;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1520697222860-68ae1b5b3f3e?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            opacity: 0.18;
+            z-index: -1;
+            filter: blur(18px) saturate(1.1);
         }
         .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: visible;
+            max-width: 900px;
+            margin: 40px auto 60px;
+            padding: 36px;
+            background: rgba(15, 23, 56, 0.88);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.28);
+            backdrop-filter: blur(16px);
         }
         h1 {
             text-align: center;
-            color: #333;
+            font-size: 3rem;
+            margin-bottom: 8px;
+            letter-spacing: 0.06em;
+            text-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        }
+        p {
+            text-align: center;
+            font-size: 1.05rem;
+            color: #d8e3ff;
+            margin-bottom: 28px;
         }
         .upload-section, .camera-section {
-            margin: 20px 0;
-            padding: 20px;
-            border: 2px dashed #ccc;
-            border-radius: 5px;
+            margin: 24px 0;
+            padding: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
             text-align: center;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
         .upload-section:hover, .camera-section:hover {
-            border-color: #999;
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.28);
+            box-shadow: 0 22px 40px rgba(0, 0, 0, 0.18);
+        }
+        h2 {
+            margin-bottom: 16px;
+            color: #f7fbff;
         }
         input[type="file"] {
-            margin: 10px 0;
+            margin: 14px 0;
+            color: #ffffff;
         }
         button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
+            background: linear-gradient(135deg, #66d5ff 0%, #8a7cff 100%);
+            color: #081129;
+            padding: 14px 28px;
             border: none;
-            border-radius: 5px;
+            border-radius: 999px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 12px 28px rgba(43, 124, 239, 0.24);
         }
         button:hover {
-            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(43, 124, 239, 0.3);
         }
         #video {
             width: 100%;
-            max-width: 400px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            max-width: 480px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
         }
         #canvas {
             display: none;
+        }
+        .styles-section {
+            margin: 30px 0 16px;
+        }
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+        .style-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 18px;
+            padding: 14px 16px;
+            text-align: center;
+            color: #e5efff;
+            font-weight: 600;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+            backdrop-filter: blur(10px);
+        }
+        .example-cards {
+            margin: 28px 0 18px;
+            padding: 18px 22px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+        .example-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+        .example-card {
+            display: flex;
+            flex-direction: column;
+            background: rgba(9, 18, 40, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            overflow: hidden;
+            color: #f2f7ff;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+        }
+        .example-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        .example-meta {
+            padding: 14px 16px;
+            background: rgba(12, 23, 46, 0.95);
+        }
+        .example-meta strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1rem;
+            color: #f8fbff;
+        }
+        .example-meta span {
+            display: block;
+            font-size: 0.92rem;
+            color: #cbd7ff;
+            line-height: 1.5;
+        }
+        @media (max-width: 940px) {
+            /* No floating badges on smaller screens */
+        }
+        @media (max-width: 640px) {
+            .container {
+                margin: 20px 16px 40px;
+                padding: 24px;
+            }
+            h1 {
+                font-size: 2.4rem;
+            }
         }
     </style>
 </head>
@@ -62,7 +181,32 @@
     <div class="container">
         <h1>Art Style Recognizer</h1>
         <p>Upload an image of a painting or take a photo to identify its art style!</p>
-        
+
+        <div class="styles-section">
+            <h2>Supported Art Styles</h2>
+            <div class="style-grid">
+                {% for style in class_names %}
+                <div class="style-card">{{ style.replace('_', ' ') }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="example-cards">
+            <h2>Example Pieces</h2>
+            <div class="example-list">
+                {% for piece in example_pieces %}
+                <div class="example-card">
+                    <img src="{{ piece.image_url }}" alt="{{ piece.title }} by {{ piece.artist }}">
+                    <div class="example-meta">
+                        <strong>{{ piece.title }}</strong>
+                        <span>{{ piece.artist }}</span>
+                        <span>{{ piece.style }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
         <div class="upload-section">
             <h2>Upload Image</h2>
             <form action="/upload" method="post" enctype="multipart/form-data">
